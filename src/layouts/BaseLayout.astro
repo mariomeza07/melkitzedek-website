@@ -1,0 +1,37 @@
+---
+import '../styles/global.css';
+const { title } = Astro.props;
+---
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{title} | Melkitzedek</title>
+  </head>
+  <body class="min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-church-navy text-white px-6 py-4 flex justify-between items-center">
+      <a href="/" class="text-xl font-bold text-church-gold no-underline">
+        ✝ Melkitzedek
+      </a>
+      <ul class="flex gap-6 text-sm list-none m-0 p-0">
+        <li><a href="/about"   class="text-white hover:text-church-gold no-underline">About</a></li>
+        <li><a href="/sermons" class="text-white hover:text-church-gold no-underline">Sermons</a></li>
+        <li><a href="/events"  class="text-white hover:text-church-gold no-underline">Events</a></li>
+        <li><a href="/contact" class="text-white hover:text-church-gold no-underline">Contact</a></li>
+      </ul>
+    </nav>
+
+    <!-- Page content -->
+    <main class="flex-1 max-w-4xl mx-auto w-full px-6 py-12">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-church-navy text-white text-center py-6 text-sm">
+      <p class="m-0">© 2026 Melkitzedek · All rights reserved</p>
+    </footer>
+
+  </body>
+</html>

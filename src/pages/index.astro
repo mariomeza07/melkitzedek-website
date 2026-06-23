@@ -1,49 +1,36 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import BaseLayout from '../layouts/BaseLayout.astro';
 ---
+<BaseLayout title="Welcome">
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+  <!-- Hero -->
+  <section class="text-center py-16">
+    <h1 class="text-4xl font-bold text-indigo-900 mb-4">
+      Welcome to Grace Church
+    </h1>
+    <p class="text-lg text-gray-600 mb-8">
+      A place of faith, hope, and community. Join us every Sunday at 10:00 AM.
+    </p>
+    <a href="/contact"
+       class="bg-indigo-900 text-white px-6 py-3 rounded-lg hover:bg-indigo-700">
+      Plan Your Visit
+    </a>
+  </section>
+
+  <!-- Service times -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+    <div class="border rounded-lg p-6 text-center">
+      <h3 class="font-bold text-indigo-900 mb-2">Sunday Service</h3>
+      <p class="text-gray-600">10:00 AM – Main Worship</p>
+    </div>
+    <div class="border rounded-lg p-6 text-center">
+      <h3 class="font-bold text-indigo-900 mb-2">Bible Study</h3>
+      <p class="text-gray-600">Wednesday 7:00 PM</p>
+    </div>
+    <div class="border rounded-lg p-6 text-center">
+      <h3 class="font-bold text-indigo-900 mb-2">Youth Group</h3>
+      <p class="text-gray-600">Friday 6:00 PM</p>
+    </div>
+  </section>
+
+</BaseLayout>
