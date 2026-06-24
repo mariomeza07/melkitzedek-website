@@ -7,7 +7,7 @@ const { title } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <title>{title} | Melkitzedek</title>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
 
   <body class="min-h-screen flex flex-col">
@@ -36,7 +36,7 @@ const { title } = Astro.props;
     </footer>
 
     <!-- Netlify Identity: redirect to /admin after login -->
-    <script>
+   <script is:inline>
       if (window.netlifyIdentity) {
         window.netlifyIdentity.on("init", user => {
           if (!user) {
