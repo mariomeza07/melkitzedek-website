@@ -320,6 +320,38 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .about__inner { max-width: 1100px; margin: 0 auto; }
 .about__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; margin-bottom: 3rem; }
+
+/* Simplified about layout */
+.about__simple {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+.about__simple-text .tag { margin-bottom: 1.25rem; }
+.about__simple-text h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.25rem, 3.5vw, 3.25rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+}
+.about__simple-text h2 .accent { color: var(--coral); }
+.about__simple-text p {
+  font-size: 1rem;
+  color: var(--gray-700);
+  line-height: 1.75;
+  max-width: 38ch;
+  margin-bottom: 2rem;
+}
+.about__simple-img {
+  aspect-ratio: 4/5;
+  border-radius: 4px;
+  overflow: hidden;
+}
 .about__title {
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(2rem, 3.5vw, 3rem);
@@ -544,74 +576,22 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .link-more:hover { color: var(--coral); }
 .link-more svg { width: 14px; height: 14px; }
 
-/* ── RADIO ── */
-.radio {
-  padding: 5rem 5vw;
+/* ── RADIO (minimal strip) ── */
+.radio__strip {
   background: var(--black);
-  position: relative;
-  overflow: hidden;
-}
-/* Abstract waveform decoration */
-.radio::before {
-  content: '';
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40%;
-  height: 100%;
-  background: radial-gradient(ellipse at 80% 50%, rgba(255,69,0,0.12) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.radio__inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 3rem;
-}
-.radio__tag { margin-bottom: 1rem; }
-.radio__title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  color: #fff;
-  line-height: 1.05;
-  margin-bottom: 1rem;
-}
-.radio__title .accent { color: var(--coral); }
-.radio__sub { font-size: 1rem; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 44ch; margin-bottom: 2rem; }
-
-/* Equalizer animation */
-.eq {
+  padding: 1.75rem 5vw;
   display: flex;
-  align-items: flex-end;
-  gap: 4px;
-  height: 48px;
-  margin-bottom: 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
-.eq__bar {
-  width: 4px;
-  border-radius: 2px;
-  background: var(--coral);
-  opacity: 0.6;
-  animation: eq-bounce 1.2s ease-in-out infinite;
-}
-.eq__bar:nth-child(1) { animation-delay: 0s;    height: 60%; }
-.eq__bar:nth-child(2) { animation-delay: 0.1s;  height: 80%; }
-.eq__bar:nth-child(3) { animation-delay: 0.2s;  height: 40%; }
-.eq__bar:nth-child(4) { animation-delay: 0.3s;  height: 100%; }
-.eq__bar:nth-child(5) { animation-delay: 0.4s;  height: 65%; }
-.eq__bar:nth-child(6) { animation-delay: 0.15s; height: 50%; }
-.eq__bar:nth-child(7) { animation-delay: 0.25s; height: 85%; }
-.eq__bar:nth-child(8) { animation-delay: 0.35s; height: 45%; }
-
-@keyframes eq-bounce {
-  0%, 100% { transform: scaleY(1); }
-  50%       { transform: scaleY(0.35); }
+.radio__strip-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.01em;
 }
 
 /* ── EVENTS ── */
@@ -686,6 +666,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   gap: 0.3rem;
 }
 .e-item__meta svg { width: 13px; height: 13px; flex-shrink: 0; }
+.e-item__when { font-size: 0.875rem; color: var(--gray-500); margin-top: 0.25rem; }
 .e-item__badge {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 0.6875rem;
@@ -899,6 +880,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .bento { grid-template-columns: 1fr; }
   .bento__cell--img, .bento__cell--wide, .bento__cell--quote, .bento__cell--text { grid-column: auto; grid-row: auto; }
   .about__header { flex-direction: column; }
+  .about__simple { grid-template-columns: 1fr; gap: 2.5rem; }
   .radio__inner { grid-template-columns: 1fr; }
   .e-item { grid-template-columns: 56px 1fr; }
   .e-item__badge { display: none; }
