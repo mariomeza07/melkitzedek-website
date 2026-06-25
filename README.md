@@ -1,63 +1,82 @@
-# Astro Starter Kit: Blog
+# Melkitzedek — Church Website v2
 
-```sh
-npm create astro@latest -- --template blog
+Premium minimalist website for Iglesia Melkitzedek, Tegucigalpa, Honduras.  
+Pure HTML + CSS + vanilla JS. No build step. No framework.
+
+---
+
+## Project structure
+
+```
+melkitzedeke-websitev2/
+├── index.html           ← Main website
+├── styles.css           ← All styles and design tokens
+├── favicon.svg          ← Site icon
+├── robots.txt           ← Search engine rules
+├── js/
+│   └── main.js          ← Animations and interactions
+├── lib/
+│   ├── gsap.min.js      ← Animation library (local copy)
+│   └── ScrollTrigger.min.js
+├── assets/
+│   ├── img/             ← All site images (replace with real photos)
+│   └── credits.json     ← Stock photo attributions
+├── admin/
+│   ├── index.html       ← Decap CMS entry point
+│   └── config.yml       ← CMS collections and fields
+├── .gitignore
+├── .htaccess            ← Cache headers for Apache / Hostinger
+├── _redirects           ← Netlify URL rules (required for CMS)
+└── netlify.toml         ← Netlify build and cache config
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+---
 
-Features:
+## Design tokens
 
-- ✅ Minimal styling (make it your own!)
-- ✅ 100/100 Lighthouse performance
-- ✅ SEO-friendly with canonical URLs and Open Graph data
-- ✅ Sitemap support
-- ✅ RSS Feed support
-- ✅ Markdown & MDX support
+Edit CSS variables at the top of styles.css:
 
-## 🚀 Project Structure
+- --black  #0A0A0A  → backgrounds
+- --coral  #FF4500  → accent color
+- --white  #FFFFFF
+- --off    #F7F6F3  → light section background
 
-Inside of your Astro project, you'll see the following folders and files:
+---
 
-```text
-├── public/
-├── src/
-│   ├── assets/
-│   ├── components/
-│   ├── content/
-│   ├── layouts/
-│   └── pages/
-├── astro.config.mjs
-├── README.md
-├── package.json
-└── tsconfig.json
+## Open in VS Code
+
+```bash
+code /Users/mariomeza/Desktop/Personal/Dev/Websites/melkitzedeke-websitev2
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Recommended extensions: Live Server, Prettier, YAML
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+---
 
-The `src/content/` directory contains "collections" of related Markdown and MDX documents. Use `getCollection()` to retrieve posts from `src/content/blog/`, and type-check your frontmatter using an optional schema. See [Astro's Content Collections docs](https://docs.astro.build/en/guides/content-collections/) to learn more.
+## Deploy updates
 
-Any static assets, like images, can be placed in the `public/` directory.
+```bash
+git add .
+git commit -m "your message"
+git push
+```
 
-## 🧞 Commands
+Netlify redeploys automatically in ~30 seconds.
 
-All commands are run from the root of the project, from a terminal:
+---
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## CMS setup (Decap CMS)
 
-## 👀 Want to learn more?
+1. Netlify dashboard → Identity → Enable Identity → set to Invite only
+2. Identity → Services → Enable Git Gateway
+3. Identity → Invite users → enter staff emails
+4. Staff visit https://your-site.netlify.app/admin and log in
 
-Check out [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+---
 
-## Credit
+## Replace placeholder content
 
-This theme is based off of the lovely [Bear Blog](https://github.com/HermanMartinus/bearblog/).
+- Photos: swap files in assets/img/ (hero.jpg, community.jpg, sermons.jpg, events.jpg)
+- Text: edit index.html directly
+- Address / phone / email: Contact section in index.html
+- Social links: Footer section in index.html

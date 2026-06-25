@@ -1,13 +1,7 @@
-# ============================================================
-# Netlify configuration — Melkitzedek
-# ============================================================
-
 [build]
-  publish = "."          # The whole repo root is the site
-  # No build command needed — pure static site
+  publish = "."
 
-# ── Headers ─────────────────────────────────────────────────
-# Cache HTML/JS/CSS as short as possible; images/fonts long.
+# ── HTML — no cache (always fresh)
 [[headers]]
   for = "/*.html"
   [headers.values]
@@ -15,27 +9,39 @@
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
+# ── CSS / JS — no cache (versioned via ?v= query string in HTML)
 [[headers]]
   for = "/*.css"
   [headers.values]
     Cache-Control = "no-cache, must-revalidate"
 
 [[headers]]
-  for = "/*.js"
+  for = "/js/*.js"
   [headers.values]
     Cache-Control = "no-cache, must-revalidate"
 
-[[headers]]
-  for = "/assets/img/*"
-  [headers.values]
-    Cache-Control = "public, max-age=2592000, immutable"
-
+# ── Libraries — long cache (filenames never change)
 [[headers]]
   for = "/lib/*"
   [headers.values]
     Cache-Control = "public, max-age=2592000, immutable"
 
-# ── Netlify Identity (for CMS) ───────────────────────────────
-# The CMS uses Netlify Identity + Git Gateway.
-# Enable both in: Netlify dashboard → Site settings → Identity
+# ── Images — long cache
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, immutable"
+
+# ── Favicon
+[[headers]]
+  for = "/favicon.svg"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# ── Admin (CMS) — no cache
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
