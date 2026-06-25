@@ -1,0 +1,41 @@
+# ============================================================
+# Netlify configuration — Melkitzedek
+# ============================================================
+
+[build]
+  publish = "."          # The whole repo root is the site
+  # No build command needed — pure static site
+
+# ── Headers ─────────────────────────────────────────────────
+# Cache HTML/JS/CSS as short as possible; images/fonts long.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
+
+[[headers]]
+  for = "/assets/img/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, immutable"
+
+[[headers]]
+  for = "/lib/*"
+  [headers.values]
+    Cache-Control = "public, max-age=2592000, immutable"
+
+# ── Netlify Identity (for CMS) ───────────────────────────────
+# The CMS uses Netlify Identity + Git Gateway.
+# Enable both in: Netlify dashboard → Site settings → Identity

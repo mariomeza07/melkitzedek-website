@@ -1,0 +1,79 @@
+{
+  "hero": {
+    "src": "assets/img/hero.jpg",
+    "title": "Aachener Dom",
+    "creator": "creyesk",
+    "creator_url": "https://www.flickr.com/photos/100477236@N02",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/100477236@N02/14784996837",
+    "source": "flickr"
+  },
+  "about": {
+    "src": "assets/img/about.jpg",
+    "title": "Trinity Lutheran Church",
+    "creator": "QuesterMark",
+    "creator_url": "https://www.flickr.com/photos/52855156@N00",
+    "license": "by-sa",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/52855156@N00/52042542613",
+    "source": "flickr"
+  },
+  "sermons": {
+    "src": "assets/img/sermons.jpg",
+    "title": "202/365 - Light of the World.",
+    "creator": "Www.CourtneyCarmody.com/",
+    "creator_url": "https://www.flickr.com/photos/41185766@N03",
+    "license": "by-sa",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/41185766@N03/4726912910",
+    "source": "flickr"
+  },
+  "events": {
+    "src": "assets/img/events.jpg",
+    "title": "St. Paul capitol building November 2009",
+    "creator": "Fibonacci Blue",
+    "creator_url": "https://www.flickr.com/photos/44550450@N04",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/44550450@N04/4103770531",
+    "source": "flickr"
+  },
+  "mission": {
+    "src": "assets/img/mission.jpg",
+    "title": "Azabudai Hills",
+    "creator": "dalecruse",
+    "creator_url": "https://www.flickr.com/photos/91873384@N04",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/91873384@N04/54318051740",
+    "source": "flickr"
+  },
+  "community": {
+    "src": "assets/img/community.jpg",
+    "title": "Diverse people stacking hands together",
+    "creator": "Rawpixel Ltd",
+    "creator_url": "https://www.flickr.com/photos/147875007@N03",
+    "license": "by",
+    "license_version": "2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/147875007@N03/44876338345",
+    "source": "flickr"
+  },
+  "sermon3": {
+    "src": "assets/img/sermon3.jpg",
+    "title": "Psalter-Hours, Initial “D” with Flagellation; beggars and ape in margin, Walters Manuscript W.82, fol. 207r",
+    "creator": "Walters Art Museum Illuminated Manuscripts",
+    "creator_url": "https://www.flickr.com/photos/39699193@N03",
+    "license": "cc0",
+    "license_version": "1.0",
+    "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+    "foreign_landing_url": "https://www.flickr.com/photos/39699193@N03/15283013669",
+    "source": "flickr"
+  }
+}

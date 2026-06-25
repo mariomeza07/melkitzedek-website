@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls /Users/mariomeza/Desktop/Personal/Dev/Websites/)",
+      "Bash(python3 '/Users/mariomeza/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/8edd013e-94e1-42f6-9603-328a520b08de/14faa914-c0f2-4b46-9cc5-0784b6c3068d/skills/adrian-saenz-hostinger-premium-website/scripts/download_libs.py' --target /Users/mariomeza/Desktop/Personal/Dev/Websites/melkitzedeke-websitev2/lib)",
+      "Bash(ffmpeg -y -i /Users/mariomeza/Desktop/Personal/Dev/Websites/melkitzedeke-websitev2/assets/img/hero.jpg /Users/mariomeza/Desktop/Personal/Dev/Websites/melkitzedeke-websitev2/assets/img/hero.webp)",
+      "Bash(python3 -c \"from PIL import Image; img=Image.open\\('/Users/mariomeza/Desktop/Personal/Dev/Websites/melkitzedeke-websitev2/assets/img/hero.jpg'\\); img.save\\('/Users/mariomeza/Desktop/Personal/Dev/Websites/melkitzedeke-websitev2/assets/img/hero.webp', 'WEBP', quality=82\\); print\\('OK'\\)\")",
+      "Bash(SKILL_DIR=\"/Users/mariomeza/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/8edd013e-94e1-42f6-9603-328a520b08de/14faa914-c0f2-4b46-9cc5-0784b6c3068d/skills/adrian-saenz-hostinger-premium-website\" *)",
+      "Bash(python3 -m http.server 8765)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8765/)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(git pull *)",
+      "Bash(git push *)",
+      "Bash(git stash *)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git rebase *)",
+      "Bash(GIT_EDITOR=true git rebase --continue)"
+    ]
+  }
+}

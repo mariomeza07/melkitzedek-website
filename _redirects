@@ -1,0 +1,3 @@
+# Netlify redirects
+# Required for Decap CMS auth callback
+/admin/*   /admin/index.html   200
