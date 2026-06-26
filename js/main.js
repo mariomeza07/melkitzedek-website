@@ -4,89 +4,75 @@
 (function () {
   'use strict';
 
-  /* ── Sanity config ──────────────────────────────────────────
-     projectId : your Sanity project
-     dataset   : "production" is the default Sanity dataset
-     CDN URL   : cdn.sanity.io serves cached, fast responses
-  ─────────────────────────────────────────────────────────── */
+  /* ── Sanity ── */
   var SANITY_PROJECT = '1jow8pp9';
   var SANITY_DATASET = 'production';
   var SANITY_CDN     = 'https://cdn.sanity.io';
 
-  /* Sends a GROQ query to Sanity and returns the result array */
   function sanityQuery(query) {
     var url = SANITY_CDN + '/v2021-10-21/data/query/' + SANITY_DATASET
       + '?projectId=' + SANITY_PROJECT
       + '&query=' + encodeURIComponent(query);
-    return fetch(url)
-      .then(function (r) { return r.json(); })
-      .then(function (d) { return d.result; });
+    return fetch(url).then(function (r) { return r.json(); }).then(function (d) { return d.result; });
   }
 
-  /* Converts a Sanity image asset reference into a full CDN URL */
   function imageUrl(ref, width) {
     if (!ref) return null;
-    /* ref format: "image-abc123-1920x1080-jpg"
-       We strip "image-" prefix and convert last dash+ext to dot+ext */
-    var id = ref
-      .replace(/^image-/, '')
-      .replace(/-([a-zA-Z]+)$/, '.$1');
+    var id = ref.replace(/^image-/, '').replace(/-([a-zA-Z]+)$/, '.$1');
     var base = SANITY_CDN + '/images/' + SANITY_PROJECT + '/' + SANITY_DATASET + '/' + id;
     return width ? base + '?w=' + width + '&auto=format' : base + '?auto=format';
   }
 
-  /* Sets text on an element only if the CMS value is non-empty */
-  function setText(selector, value) {
-    if (!value) return;
-    var el = document.querySelector(selector);
-    if (el) el.textContent = value;
+  /* ── DOM helpers ── */
+  var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
+  var $$ = function (sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); };
+
+  /* Set text on an element — does nothing if value is empty */
+  function txt(sel, val) {
+    if (!val) return;
+    var el = $(sel);
+    if (el) el.textContent = val;
   }
 
-  /* Sets a background-image CSS on an element */
-  function setBg(selector, url) {
+  /* Set src on an <img> */
+  function img(sel, url, alt) {
     if (!url) return;
-    var el = document.querySelector(selector);
-    if (el) el.style.backgroundImage = 'url(' + url + ')';
-  }
-
-  /* Sets the src of an <img> element */
-  function setImg(selector, url, alt) {
-    if (!url) return;
-    var el = document.querySelector(selector);
+    var el = $(sel);
     if (!el) return;
     el.src = url;
     if (alt) el.alt = alt;
   }
 
-  /* Sets an href on an <a> element */
-  function setHref(selector, url) {
+  /* Set href on an <a> */
+  function href(sel, url) {
     if (!url) return;
-    var el = document.querySelector(selector);
+    var el = $(sel);
     if (el) el.href = url;
   }
 
-  /* ── Helpers ── */
-  var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
-  var $$ = function (sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); };
+  /* Set innerHTML (for headings with <em> italic parts) */
+  function heading(sel, full, italic) {
+    if (!full) return;
+    var el = $(sel);
+    if (!el) return;
+    if (italic && full.indexOf(italic) !== -1) {
+      el.innerHTML = full.replace(italic, '<em>' + italic + '</em>');
+    } else {
+      el.textContent = full;
+    }
+  }
 
   function safe(fn, name) {
     try { fn(); } catch (e) { console.warn('[melki] ' + name + ':', e); }
   }
 
   /* ══════════════════════════════════════════════════════════
-     NAV
-     - Adds "solid" class when user scrolls past 40px
-       (switches from transparent to white background)
-     - Opens/closes mobile menu via burger button
-     - Smooth scrolls to anchor sections
+     NAV — solid on scroll, mobile menu, smooth anchor scroll
   ══════════════════════════════════════════════════════════ */
   function initNav() {
     var nav = $('.nav');
     if (!nav) return;
-
-    function onScroll() {
-      nav.classList.toggle('solid', window.scrollY > 40);
-    }
+    function onScroll() { nav.classList.toggle('solid', window.scrollY > 40); }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
@@ -119,56 +105,41 @@
   }
 
   /* ══════════════════════════════════════════════════════════
-     HERO
-     - Adds "is-loaded" class once the background image loads
-       (triggers the slow Ken Burns zoom via CSS transition)
+     HERO — Ken Burns zoom on image load
   ══════════════════════════════════════════════════════════ */
   function initHero() {
     var bg = $('.hero__bg');
     if (!bg) return;
-    var img = bg.querySelector('img');
-    if (!img) return;
-    if (img.complete) bg.classList.add('is-loaded');
-    else img.addEventListener('load', function () { bg.classList.add('is-loaded'); });
+    var i = bg.querySelector('img');
+    if (!i) return;
+    if (i.complete) bg.classList.add('is-loaded');
+    else i.addEventListener('load', function () { bg.classList.add('is-loaded'); });
   }
 
   /* ══════════════════════════════════════════════════════════
      SCROLL REVEALS
-     - IntersectionObserver watches every element with class "r"
-     - When the element enters the viewport, adds class "on"
-     - CSS transitions opacity 0→1 and translateY 24px→0
-     - Safety timeout reveals everything after 6s (in case
-       IntersectionObserver misfires on some browsers)
+     IntersectionObserver: adds class "on" when element enters
+     viewport → CSS animates opacity 0→1 + translateY 24→0
   ══════════════════════════════════════════════════════════ */
   function initReveals() {
     var els = $$('.r');
     if (!els.length) return;
-
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('on');
-          io.unobserve(entry.target);
-        }
+        if (entry.isIntersecting) { entry.target.classList.add('on'); io.unobserve(entry.target); }
       });
     }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
-
     els.forEach(function (el) { io.observe(el); });
     setTimeout(function () { els.forEach(function (el) { el.classList.add('on'); }); }, 6000);
   }
 
   /* ══════════════════════════════════════════════════════════
      RADIO PLAYER
-     - HTML5 <audio> element with the stream src
-     - Play button toggles audio.play() / audio.pause()
-     - Waveform bars animate via CSS when "playing" class is set
-     - Volume slider sets audio.volume (0 to 1)
-     - Nav pill scrolls to radio section and toggles play
+     HTML5 <audio> play/pause, waveform animation, volume
   ══════════════════════════════════════════════════════════ */
   function initRadio() {
     var audio = document.getElementById('radio-audio');
     if (!audio) return;
-
     var playBtn   = document.getElementById('radio-play');
     var wave      = $('.radio__wave');
     var volSlider = $('.radio__vol-slider');
@@ -197,11 +168,9 @@
       });
     }
     if (volSlider) {
-      audio.volume = parseFloat(volSlider.value);
-      volSlider.addEventListener('input', function () { audio.volume = parseFloat(volSlider.value); });
+      audio.volume = parseFloat(volSlider.value) / 100;
+      volSlider.addEventListener('input', function () { audio.volume = parseFloat(volSlider.value) / 100; });
     }
-
-    /* Build waveform bars dynamically so we can control count */
     if (wave && wave.children.length === 0) {
       for (var i = 0; i < 24; i++) {
         var bar = document.createElement('span');
@@ -212,152 +181,180 @@
   }
 
   /* ══════════════════════════════════════════════════════════
-     HOMEPAGE CONTENT (from Sanity)
-     Fetches the single "homepage" document which controls:
-       - Hero: background image, heading, subtitle, button labels
-       - About: image, heading, body paragraph
-       - Devotional: quote, scripture reference, body text
-       - Visit: subtitle paragraph
+     HOMEPAGE CONTENT (Sanity → DOM)
 
-     How it works:
-       *[_type=="homepage"][0] → get the first (only) homepage doc
-       {heroBg, heroTitle, ...} → only fetch these fields
+     Fetches the single "homepage" document.
+     Every field maps to one element on the page via:
+       txt(selector, value)     → el.textContent = value
+       img(selector, url)       → el.src = url
+       heading(sel, full, italic) → el.innerHTML with <em> wrap
 
-     setText / setImg / setBg are helpers that find an element
-     by CSS selector and update its text or image src.
-     They do nothing if the CMS value is empty, so hardcoded
-     HTML stays as the fallback.
+     If a field is empty in the CMS, the hardcoded HTML stays
+     unchanged — so the page always has content even if the
+     CMS document hasn't been filled in yet.
   ══════════════════════════════════════════════════════════ */
   function initHomepageContent() {
-    sanityQuery('*[_type=="homepage"][0]{heroBg,heroEyebrow,heroTitle,heroTitleItalic,heroSubtitle,heroCta1,heroCta2,aboutImage,aboutEyebrow,aboutTitle,aboutTitleItalic,aboutBody,devQuote,devReference,devBody,visitSubtitle}')
-      .then(function (hp) {
-        if (!hp) return;
+    var q = '*[_type=="homepage"][0]{'
+      + 'heroBg,heroEyebrow,heroTitle,heroTitleItalic,heroSubtitle,heroCta1,heroCta2,'
+      + 'stat1Value,stat1Label,stat2Value,stat2Label,stat3Value,stat3Label,stat4Value,stat4Label,'
+      + 'sermonsEyebrow,sermonsTitle,sermonsViewAll,'
+      + 'aboutImage,aboutEyebrow,aboutTitle,aboutTitleItalic,aboutBody,aboutCta,'
+      + 'eventsEyebrow,eventsTitle,'
+      + 'ministriesEyebrow,ministriesTitle,'
+      + 'devEyebrow,devTitle,devQuote,devReference,devBody,'
+      + 'prayerEyebrow,prayerTitle,prayerSubtitle,'
+      + 'visitEyebrow,visitTitle,visitTitleItalic,visitSubtitle,visitCta1,visitCta2,'
+      + 'visitTime1Label,visitTime1Time,visitTime1Sub,visitTime2Label,visitTime2Time,visitTime2Sub,'
+      + 'contactEyebrow,contactTitle,contactHours,contactFormTitle'
+      + '}';
 
-        /* Hero background image */
-        if (hp.heroBg && hp.heroBg.asset) {
-          setImg('.hero__bg img', imageUrl(hp.heroBg.asset._ref, 1920), 'Hero background');
-        }
+    sanityQuery(q).then(function (hp) {
+      if (!hp) return;
 
-        /* Hero text */
-        setText('.hero__eyebrow span:last-child', hp.heroEyebrow);
-        if (hp.heroTitle) {
-          var titleEl = $('.hero__title');
-          if (titleEl) {
-            var italic = hp.heroTitleItalic || '';
-            var plain  = hp.heroTitle.replace(italic, '').trim();
-            titleEl.innerHTML = plain + (italic ? '<br /><em>' + italic + '</em>' : '');
-          }
-        }
-        setText('.hero__sub', hp.heroSubtitle);
-        setText('.hero__actions .btn-gold', hp.heroCta1);
-        setText('.hero__actions .btn-outline-white', hp.heroCta2);
+      /* Hero */
+      if (hp.heroBg && hp.heroBg.asset) img('.hero__bg img', imageUrl(hp.heroBg.asset._ref, 1920), 'Hero');
+      txt('.hero__eyebrow', hp.heroEyebrow);
+      heading('.hero__title', hp.heroTitle, hp.heroTitleItalic);
+      txt('.hero__sub', hp.heroSubtitle);
+      txt('.hero__actions .btn-gold', hp.heroCta1);
+      txt('.hero__actions .btn-outline-white', hp.heroCta2);
 
-        /* About image */
-        if (hp.aboutImage && hp.aboutImage.asset) {
-          setImg('.about__img img', imageUrl(hp.aboutImage.asset._ref, 800), 'Our congregation');
-        }
+      /* Stats bar — each stat has a value span + label span */
+      var stats = document.querySelectorAll('.hero__stat');
+      /* stats[0]=stat1, stats[1]=stat2, stats[2]=stat3, stats[3]=stat4 */
+      var sd = [
+        { v: hp.stat1Value, l: hp.stat1Label },
+        { v: hp.stat2Value, l: hp.stat2Label },
+        { v: hp.stat3Value, l: hp.stat3Label },
+        { v: hp.stat4Value, l: hp.stat4Label },
+      ];
+      stats.forEach(function (stat, i) {
+        if (!sd[i]) return;
+        var numEl = stat.querySelector('.hero__stat-num');
+        var lblEl = stat.querySelector('.hero__stat-label');
+        if (numEl && sd[i].v) numEl.textContent = sd[i].v;
+        if (lblEl && sd[i].l) lblEl.textContent = sd[i].l;
+      });
 
-        /* About text */
-        setText('.about__text .eyebrow', hp.aboutEyebrow);
-        if (hp.aboutTitle) {
-          var aboutTitleEl = $('.about__text .section-title');
-          if (aboutTitleEl) {
-            var aItalic = hp.aboutTitleItalic || '';
-            var aPlain  = hp.aboutTitle.replace(aItalic, '').trim();
-            aboutTitleEl.innerHTML = aPlain + (aItalic ? '<br /><em>' + aItalic + '</em>' : '');
-          }
-        }
-        setText('.about__body', hp.aboutBody);
+      /* Sermons section header */
+      txt('.sermons .eyebrow', hp.sermonsEyebrow);
+      txt('#sermons-heading', hp.sermonsTitle);
+      if (hp.sermonsViewAll) href('.sermons .link-more', hp.sermonsViewAll);
 
-        /* Devotional */
-        if (hp.devQuote) {
-          var quoteEl = $('.dp__quote p');
-          if (quoteEl) quoteEl.textContent = '"' + hp.devQuote + '"';
-        }
-        setText('.dp__quote footer', hp.devReference);
-        setText('.dp__body', hp.devBody);
+      /* About */
+      if (hp.aboutImage && hp.aboutImage.asset) img('.about__img img', imageUrl(hp.aboutImage.asset._ref, 800), 'Our congregation');
+      txt('.about__text .eyebrow', hp.aboutEyebrow);
+      heading('.about__text .section-title', hp.aboutTitle, hp.aboutTitleItalic);
+      txt('.about__body', hp.aboutBody);
+      txt('.about__text .btn-outline-dark', hp.aboutCta);
 
-        /* Visit subtitle */
-        setText('.visit__sub', hp.visitSubtitle);
-      })
-      .catch(function (err) { console.warn('[melki] homepage content:', err); });
+      /* Events section header */
+      txt('.events .eyebrow', hp.eventsEyebrow);
+      txt('#events-heading', hp.eventsTitle);
+
+      /* Ministries section header */
+      txt('.ministries .eyebrow', hp.ministriesEyebrow);
+      txt('#min-heading', hp.ministriesTitle);
+
+      /* Devotional */
+      txt('.dp__devotional .eyebrow', hp.devEyebrow);
+      txt('.dp__devotional .section-title', hp.devTitle);
+      if (hp.devQuote) {
+        var qp = $('.dp__quote p');
+        if (qp) qp.textContent = '“' + hp.devQuote + '”';
+      }
+      txt('.dp__quote footer', hp.devReference);
+      txt('.dp__body', hp.devBody);
+
+      /* Prayer */
+      txt('.dp__prayer .eyebrow', hp.prayerEyebrow);
+      txt('.dp__prayer .section-title', hp.prayerTitle);
+      txt('.dp__prayer-sub', hp.prayerSubtitle);
+
+      /* Visit CTA */
+      txt('.visit__text .eyebrow', hp.visitEyebrow);
+      heading('.visit__title', hp.visitTitle, hp.visitTitleItalic);
+      txt('.visit__sub', hp.visitSubtitle);
+      txt('.visit__actions .btn-gold', hp.visitCta1);
+      txt('.visit__actions .btn-outline-white', hp.visitCta2);
+      txt('.visit__time-card:nth-child(1) .visit__time-label', hp.visitTime1Label);
+      txt('.visit__time-card:nth-child(1) .visit__time',       hp.visitTime1Time);
+      txt('.visit__time-card:nth-child(1) .visit__time-sub',   hp.visitTime1Sub);
+      txt('.visit__time-card:nth-child(2) .visit__time-label', hp.visitTime2Label);
+      txt('.visit__time-card:nth-child(2) .visit__time',       hp.visitTime2Time);
+      txt('.visit__time-card:nth-child(2) .visit__time-sub',   hp.visitTime2Sub);
+
+      /* Contact section */
+      txt('.contact .eyebrow', hp.contactEyebrow);
+      txt('#contact-heading', hp.contactTitle);
+      txt('.contact__list li:nth-child(2) span', hp.contactHours);
+      txt('.contact__form-title', hp.contactFormTitle);
+
+    }).catch(function (e) { console.warn('[melki] homepage:', e); });
   }
 
   /* ══════════════════════════════════════════════════════════
-     SETTINGS (from Sanity)
-     Fetches site-wide settings:
-       - Contact info (phone, email, address)
-       - Social media links
-       - Radio stream URL + TuneIn link
-       - Service times (stats bar)
-
-     Sets href on <a> elements and text on info items.
-     The audio element src is updated so the correct
-     stream plays when the user clicks play.
+     SETTINGS (Sanity → DOM)
+     Site-wide values: contact info, social links, radio URL,
+     service times, footer tagline
   ══════════════════════════════════════════════════════════ */
   function initSettings() {
     sanityQuery('*[_type=="settings"][0]{churchName,tagline,phone,email,address,mapUrl,facebook,instagram,youtube,radioStreamUrl,tuneInUrl,radioDescription,sundayTime,wednesdayTime}')
       .then(function (s) {
         if (!s) return;
 
-        /* Radio stream */
+        /* Radio */
         if (s.radioStreamUrl) {
           var audio = document.getElementById('radio-audio');
           if (audio) audio.src = s.radioStreamUrl;
         }
-        if (s.tuneInUrl) setHref('.radio__tunein', s.tuneInUrl);
-        if (s.radioDescription) setText('.radio__now', s.radioDescription);
+        txt('.radio__name', s.churchName ? s.churchName + ' Radio' : null);
+        txt('#radio-now', s.radioDescription);
+        href('.radio__tunein', s.tuneInUrl);
+        href('.footer__socials a[aria-label="TuneIn Radio"]', s.tuneInUrl);
 
-        /* TuneIn link in footer */
-        setHref('.footer__socials a[aria-label="TuneIn Radio"]', s.tuneInUrl);
-
-        /* Social links — nav and footer */
-        $$('a[aria-label="Facebook"]').forEach(function (a) { if (s.facebook) a.href = s.facebook; });
+        /* Social links — appear in both nav and footer */
+        $$('a[aria-label="Facebook"]').forEach(function (a)  { if (s.facebook)  a.href = s.facebook; });
         $$('a[aria-label="Instagram"]').forEach(function (a) { if (s.instagram) a.href = s.instagram; });
-        $$('a[aria-label="YouTube"]').forEach(function (a) { if (s.youtube) a.href = s.youtube; });
+        $$('a[aria-label="YouTube"]').forEach(function (a)   { if (s.youtube)   a.href = s.youtube; });
 
-        /* Contact section */
-        if (s.phone) {
-          var phoneEl = $('.contact__list a[href^="tel"]');
-          if (phoneEl) { phoneEl.href = 'tel:' + s.phone.replace(/\s/g,''); phoneEl.textContent = s.phone; }
-        }
+        /* Contact info */
+        if (s.address) txt('.contact__list li:nth-child(1) span', s.address);
         if (s.email) {
           $$('a[href^="mailto"]').forEach(function (a) { a.href = 'mailto:' + s.email; a.textContent = s.email; });
         }
-        if (s.address) {
-          var addrEl = $('.contact__list li:first-child span');
-          if (addrEl) addrEl.textContent = s.address;
+        if (s.phone) {
+          var tel = $('a[href^="tel"]');
+          if (tel) { tel.href = 'tel:' + s.phone.replace(/\s/g, ''); tel.textContent = s.phone; }
         }
-        if (s.mapUrl) setHref('.contact__list a[href*="maps"]', s.mapUrl);
+        if (s.mapUrl) href('a[href*="maps"]', s.mapUrl);
 
-        /* Stats bar times */
-        if (s.sundayTime) {
-          var sunEl = $('.hero__stat-num .sun-time');
-          if (sunEl) sunEl.textContent = s.sundayTime;
+        /* Footer */
+        txt('.footer__tagline', s.tagline);
+        if (s.churchName) txt('.footer__copy', '© 2026 ' + s.churchName);
+
+        /* Footer service times column */
+        var ftItems = $$('.footer__col:last-child ul li');
+        if (ftItems[0] && s.sundayTime)    ftItems[0].textContent = 'Sunday ' + s.sundayTime;
+        if (ftItems[1] && s.wednesdayTime) ftItems[1].textContent = 'Wednesday ' + s.wednesdayTime;
+        if (ftItems[3] && s.email) {
+          ftItems[3].innerHTML = '<a href="mailto:' + s.email + '">' + s.email + '</a>';
         }
 
-        /* Footer tagline */
-        setText('.footer__tagline', s.tagline);
+        /* Nav church name */
+        txt('.nav__name', s.churchName);
 
-        /* Footer church name */
-        setText('.footer__copy', s.churchName ? '© 2026 ' + s.churchName : null);
-      })
-      .catch(function (err) { console.warn('[melki] settings:', err); });
+      }).catch(function (e) { console.warn('[melki] settings:', e); });
   }
 
   /* ══════════════════════════════════════════════════════════
-     SERMONS (from Sanity)
-     Fetches the 3 most recent sermons ordered by date.
-     Replaces the entire sermons grid with new cards.
-     If Sanity returns nothing, the hardcoded HTML cards stay.
-
-     imageUrl() converts a Sanity image reference like
-     "image-abc123-1920x1080-jpg" into a full CDN URL.
+     SERMONS (Sanity → DOM)
+     Fetches 3 newest sermons, replaces the grid HTML.
+     Falls back to hardcoded cards if Sanity returns nothing.
   ══════════════════════════════════════════════════════════ */
   function initSermons() {
     var grid = $('.sermons__grid');
     if (!grid) return;
-
     sanityQuery('*[_type=="sermon"] | order(date desc)[0...3]{_id,title,date,pastor,scripture,videoUrl,thumbnail}')
       .then(function (sermons) {
         if (!sermons || !sermons.length) return;
@@ -377,30 +374,23 @@
             + '<h3 class="s-card__title">' + s.title + '</h3>'
             + '<p class="s-card__meta">' + (s.pastor || '') + (s.scripture ? ' · ' + s.scripture : '') + '</p>'
             + '<a href="' + link + '" class="s-card__link" target="_blank" rel="noopener">Watch now →</a>'
-            + '</div>'
-            + '</article>';
+            + '</div></article>';
         }).join('');
-
         $$('.s-card.r', grid).forEach(function (el) {
           new IntersectionObserver(function (entries, obs) {
             entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
           }, { threshold: 0.05 }).observe(el);
         });
-      })
-      .catch(function (err) { console.warn('[melki] sermons:', err); });
+      }).catch(function (e) { console.warn('[melki] sermons:', e); });
   }
 
   /* ══════════════════════════════════════════════════════════
-     EVENTS (from Sanity)
-     Same pattern as sermons — fetches up to 5 upcoming events,
-     replaces the event list HTML.
-     Date is parsed with T12:00:00 appended to avoid timezone
-     issues where new Date("2026-07-04") could show July 3.
+     EVENTS (Sanity → DOM)
+     Fetches 5 upcoming events sorted by date ascending.
   ══════════════════════════════════════════════════════════ */
   function initEvents() {
     var list = $('.e-list');
     if (!list) return;
-
     sanityQuery('*[_type=="event"] | order(date asc)[0...5]{_id,title,date,time,location,badge}')
       .then(function (events) {
         if (!events || !events.length) return;
@@ -409,40 +399,29 @@
           var d = new Date(ev.date + 'T12:00:00');
           var delay = i > 0 ? ' r-d' + Math.min(i, 4) : '';
           return '<article class="e-item r' + delay + '">'
-            + '<div class="e-item__date">'
-            + '<p class="e-item__month">' + months[d.getMonth()] + '</p>'
-            + '<p class="e-item__day">' + d.getDate() + '</p>'
-            + '</div>'
+            + '<div class="e-item__date"><p class="e-item__month">' + months[d.getMonth()] + '</p><p class="e-item__day">' + d.getDate() + '</p></div>'
             + '<div class="e-item__sep" aria-hidden="true"></div>'
-            + '<div class="e-item__info">'
-            + '<h3 class="e-item__title">' + ev.title + '</h3>'
-            + '<p class="e-item__when">' + (ev.time || '') + (ev.location ? ' · ' + ev.location : '') + '</p>'
-            + '</div>'
+            + '<div class="e-item__info"><h3 class="e-item__title">' + ev.title + '</h3>'
+            + '<p class="e-item__when">' + (ev.time || '') + (ev.location ? ' · ' + ev.location : '') + '</p></div>'
             + (ev.badge ? '<span class="e-item__badge">' + ev.badge + '</span>' : '')
             + '</article>';
         }).join('');
-
         $$('.e-item.r', list).forEach(function (el) {
           new IntersectionObserver(function (entries, obs) {
             entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
           }, { threshold: 0.05 }).observe(el);
         });
-      })
-      .catch(function (err) { console.warn('[melki] events:', err); });
+      }).catch(function (e) { console.warn('[melki] events:', e); });
   }
 
   /* ══════════════════════════════════════════════════════════
-     MINISTRIES (from Sanity)
-     Fetches ministry cards and replaces the grid.
-     Each ministry has a title, description, and icon key.
-     The icon key maps to an SVG path below.
-     If Sanity returns nothing, hardcoded cards stay visible.
+     MINISTRIES (Sanity → DOM)
+     Each ministry has title, description, and an icon key.
+     The icon key maps to an SVG path in the icons object.
   ══════════════════════════════════════════════════════════ */
   function initMinistries() {
     var grid = $('.min__grid');
     if (!grid) return;
-
-    /* SVG paths keyed by icon name */
     var icons = {
       cross:  '<path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
       music:  '<path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="16" r="3" stroke="currentColor" stroke-width="1.8"/>',
@@ -453,29 +432,24 @@
       home:   '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><polyline points="9,22 9,12 15,12 15,22" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
       globe:  '<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.8"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="currentColor" stroke-width="1.8"/>',
     };
-
     sanityQuery('*[_type=="ministry"] | order(order asc){_id,title,description,icon}')
       .then(function (ministries) {
         if (!ministries || !ministries.length) return;
         grid.innerHTML = ministries.map(function (m, i) {
           var delay = i > 0 ? ' r-d' + Math.min(i, 4) : '';
-          var iconPath = icons[m.icon] || icons['cross'];
+          var path = icons[m.icon] || icons['cross'];
           return '<div class="min__card r' + delay + '">'
-            + '<div class="min__icon">'
-            + '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">' + iconPath + '</svg>'
-            + '</div>'
+            + '<div class="min__icon"><svg viewBox="0 0 24 24" fill="none">' + path + '</svg></div>'
             + '<h3 class="min__title">' + m.title + '</h3>'
             + '<p class="min__desc">' + (m.description || '') + '</p>'
             + '</div>';
         }).join('');
-
         $$('.min__card.r', grid).forEach(function (el) {
           new IntersectionObserver(function (entries, obs) {
             entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
           }, { threshold: 0.05 }).observe(el);
         });
-      })
-      .catch(function (err) { console.warn('[melki] ministries:', err); });
+      }).catch(function (e) { console.warn('[melki] ministries:', e); });
   }
 
   /* ── Forms ── */
@@ -496,8 +470,7 @@
     gsap.registerPlugin(ScrollTrigger);
     var heroBg = $('.hero__bg img');
     if (heroBg) {
-      gsap.to(heroBg, {
-        yPercent: 15, ease: 'none',
+      gsap.to(heroBg, { yPercent: 15, ease: 'none',
         scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
       });
     }
@@ -509,7 +482,7 @@
     safe(initHero,            'hero');
     safe(initReveals,         'reveals');
     safe(initRadio,           'radio');
-    safe(initHomepageContent, 'homepage-content');
+    safe(initHomepageContent, 'homepage');
     safe(initSettings,        'settings');
     safe(initSermons,         'sermons');
     safe(initEvents,          'events');
