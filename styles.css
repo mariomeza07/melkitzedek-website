@@ -1008,7 +1008,7 @@ ul, ol { list-style: none; }
   .nav__right { display: none; }
   .nav__burger { display: flex; }
 
-  .hero__stats { grid-template-columns: repeat(2, 1fr); }
+  .hero__stats { grid-template-columns: repeat(4, 1fr); }
   .hero__stat-sep { display: none; }
 
   .radio__inner { grid-template-columns: 1fr; gap: 1rem; }
@@ -1037,7 +1037,8 @@ ul, ol { list-style: none; }
 }
 
 @media (max-width: 480px) {
-  .hero__stats { grid-template-columns: repeat(2, 1fr); }
+  .hero__stat { padding: 0.5rem 1vw; }
+  .hero__stats { grid-template-columns: repeat(4, 1fr); }
   .visit__times { flex-direction: column; }
   .footer__top { grid-template-columns: 1fr; }
   .min__grid { grid-template-columns: 1fr 1fr; }
