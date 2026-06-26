@@ -1,180 +1,204 @@
 /* ============================================================
-   MELKITZEDEK v2 — main.js (Bold Modern Redesign)
-   IIFE — no ES modules — works everywhere
-   v=20260625b
+   MELKITZEDEK — main.js  v=20260626
    ============================================================ */
 (function () {
-  "use strict";
+  'use strict';
+
+  /* ── Helpers ── */
+  var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
+  var $$ = function (sel, ctx) { return Array.from((ctx || document).querySelectorAll(sel)); };
 
   function safe(fn, name) {
-    try { fn(); } catch (e) { console.warn("[melki:" + name + "]", e); }
+    try { fn(); } catch (e) { console.warn('[melki] ' + name + ':', e); }
   }
 
-  /* ── NAV ── */
+  /* ── Nav ── */
   function initNav() {
-    var nav    = document.getElementById("nav");
-    var burger = document.getElementById("burger");
-    var menu   = document.getElementById("mobile-menu");
+    var nav = $('.nav');
     if (!nav) return;
 
-    function update() {
-      var scrolled = window.scrollY > 80;
-      if (scrolled) nav.classList.add("solid"); else nav.classList.remove("solid");
-      /* Switch to light nav on light sections */
-      var hero = document.querySelector(".hero");
-      if (hero) {
-        var heroBottom = hero.getBoundingClientRect().bottom;
-        if (heroBottom < 0) nav.classList.add("nav--light"); else nav.classList.remove("nav--light");
+    function onScroll() {
+      if (window.scrollY > 40) {
+        nav.classList.add('solid');
+      } else {
+        nav.classList.remove('solid');
       }
     }
-    window.addEventListener("scroll", update, { passive: true });
-    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
-    if (burger && menu) {
-      burger.addEventListener("click", function () {
-        var open = menu.classList.toggle("open");
-        burger.setAttribute("aria-expanded", open);
-        menu.setAttribute("aria-hidden", !open);
-        document.body.style.overflow = open ? "hidden" : "";
+    /* Burger / mobile menu */
+    var burger = $('.nav__burger');
+    var mobile = $('.nav__mobile');
+    if (burger && mobile) {
+      burger.addEventListener('click', function () {
+        mobile.classList.toggle('open');
+        document.body.style.overflow = mobile.classList.contains('open') ? 'hidden' : '';
       });
-      menu.querySelectorAll("a").forEach(function (a) {
-        a.addEventListener("click", function () {
-          menu.classList.remove("open");
-          burger.setAttribute("aria-expanded", "false");
-          menu.setAttribute("aria-hidden", "true");
-          document.body.style.overflow = "";
+      $$('.nav__mobile a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          mobile.classList.remove('open');
+          document.body.style.overflow = '';
         });
       });
     }
-  }
 
-  /* ── SMOOTH SCROLL ── */
-  function initScroll() {
-    document.addEventListener("click", function (e) {
-      var a = e.target.closest('a[href^="#"]');
-      if (!a) return;
-      var id = a.getAttribute("href");
-      if (!id || id === "#") return;
-      var target = document.querySelector(id);
-      if (!target) return;
-      e.preventDefault();
-      var navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue("--nav-h")) || 68;
-      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      window.scrollTo({
-        top: target.getBoundingClientRect().top + window.scrollY - navH,
-        behavior: reduced ? "auto" : "smooth"
+    /* Smooth scroll for anchor links */
+    $$('a[href^="#"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var id = a.getAttribute('href').slice(1);
+        if (!id) return;
+        var target = document.getElementById(id);
+        if (!target) return;
+        e.preventDefault();
+        var offset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 64;
+        var top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: top, behavior: 'smooth' });
       });
     });
   }
 
-  /* ── REVEAL — IntersectionObserver ── */
+  /* ── Hero ── */
+  function initHero() {
+    var bg = $('.hero__bg');
+    if (!bg) return;
+    var img = bg.querySelector('img');
+    if (!img) return;
+    if (img.complete) {
+      bg.classList.add('is-loaded');
+    } else {
+      img.addEventListener('load', function () { bg.classList.add('is-loaded'); });
+    }
+  }
+
+  /* ── Reveal on scroll ── */
   function initReveals() {
-    var items = document.querySelectorAll(".r");
-    if (!items.length) return;
+    var els = $$('.r');
+    if (!els.length) return;
+
     var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); }
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('on');
+          io.unobserve(entry.target);
+        }
       });
-    }, { threshold: 0.04, rootMargin: "0px 0px -3% 0px" });
-    items.forEach(function (el) { io.observe(el); });
-    /* Safety: 6s fallback */
+    }, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+
+    els.forEach(function (el) { io.observe(el); });
+
+    /* Safety timeout — reveal everything after 6s */
     setTimeout(function () {
-      document.querySelectorAll(".r:not(.on)").forEach(function (el) {
-        if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add("on");
-      });
+      els.forEach(function (el) { el.classList.add('on'); });
     }, 6000);
   }
 
-  /* ── HERO IMAGE SUBTLE ZOOM ON LOAD ── */
-  function initHeroImg() {
-    var wrap = document.getElementById("hero-img");
-    if (!wrap) return;
-    var img = wrap.querySelector("img");
-    if (!img) return;
-    if (img.complete) { wrap.classList.add("is-loaded"); return; }
-    img.addEventListener("load", function () { wrap.classList.add("is-loaded"); });
+  /* ── Radio player ── */
+  function initRadio() {
+    var audio = document.getElementById('radio-audio');
+    if (!audio) return;
+
+    var playBtn   = document.getElementById('radio-play');
+    var wave      = $('.radio__wave');
+    var volSlider = $('.radio__vol-slider');
+    var navPill   = document.getElementById('nav-radio-btn');
+
+    var playing = false;
+
+    function setPlaying(val) {
+      playing = val;
+      if (playing) {
+        audio.play().catch(function () { setPlaying(false); });
+        if (wave) wave.classList.add('playing');
+        if (playBtn) {
+          playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>';
+        }
+      } else {
+        audio.pause();
+        if (wave) wave.classList.remove('playing');
+        if (playBtn) {
+          playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><polygon points="5,3 19,12 5,21"/></svg>';
+        }
+      }
+    }
+
+    if (playBtn) {
+      playBtn.addEventListener('click', function () { setPlaying(!playing); });
+    }
+
+    if (navPill) {
+      navPill.addEventListener('click', function () {
+        var radioSec = document.getElementById('radio');
+        if (radioSec) {
+          var offset = 64;
+          var top = radioSec.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top: top, behavior: 'smooth' });
+        }
+        setTimeout(function () { setPlaying(!playing); }, 400);
+      });
+    }
+
+    if (volSlider) {
+      audio.volume = parseFloat(volSlider.value);
+      volSlider.addEventListener('input', function () {
+        audio.volume = parseFloat(volSlider.value);
+      });
+    }
+
+    /* Build waveform bars */
+    if (wave && wave.children.length === 0) {
+      for (var i = 0; i < 24; i++) {
+        var bar = document.createElement('span');
+        bar.style.height = (Math.floor(Math.random() * 22) + 6) + 'px';
+        wave.appendChild(bar);
+      }
+    }
   }
 
-  /* ── GSAP PARALLAX & SCROLL EFFECTS ── */
-  function initGsap() {
-    if (!window.gsap || !window.ScrollTrigger) return;
-    gsap.registerPlugin(ScrollTrigger);
-
-    /* Hero image parallax */
-    var heroImg = document.querySelector(".hero__img");
-    if (heroImg) {
-      gsap.to(heroImg, {
-        yPercent: 20,
-        ease: "none",
-        scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
-      });
-    }
-
-    /* Mission quote letter stagger */
-    var mq = document.querySelector(".mission__quote");
-    if (mq) {
-      gsap.fromTo(mq, { y: 40, opacity: 0 }, {
-        y: 0, opacity: 1, duration: 0.9, ease: "power3.out",
-        scrollTrigger: { trigger: mq, start: "top 80%" }
-      });
-    }
-
-    /* Sermon cards stagger */
-    var cards = document.querySelectorAll(".s-card");
-    if (cards.length) {
-      gsap.fromTo(cards, { y: 36, opacity: 0 }, {
-        y: 0, opacity: 1, duration: 0.7, stagger: 0.1, ease: "power2.out",
-        scrollTrigger: { trigger: ".sermons__grid", start: "top 82%" }
-      });
-    }
-
-    /* Event items stagger */
-    var eItems = document.querySelectorAll(".e-item");
-    if (eItems.length) {
-      gsap.fromTo(eItems, { x: -20, opacity: 0 }, {
-        x: 0, opacity: 1, duration: 0.55, stagger: 0.08, ease: "power2.out",
-        scrollTrigger: { trigger: ".e-list", start: "top 82%" }
-      });
-    }
-  }
-
-  /* ── PHOTO CREDITS ── */
-  function initCredits() {
-    var el = document.getElementById("photo-credits");
-    if (!el) return;
-    fetch("assets/credits.json")
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (data) {
-        if (!data || !data.length) return;
-        el.innerHTML = data.map(function (c) {
-          return '<a href="' + (c.license_url || "#") + '" target="_blank" rel="noopener">'
-            + (c.title || "photo") + ' &copy; ' + (c.creator || "unknown") + "</a>";
-        }).join(" · ");
-      })
-      .catch(function () {});
-  }
-
-  /* ── CONTACT FORM ── */
-  function initForm() {
-    var form = document.querySelector(".contact__form form");
+  /* ── Contact form ── */
+  function initContactForm() {
+    var form = $('form[name="contact"]');
     if (!form) return;
-    form.addEventListener("submit", function () {
-      var btn = form.querySelector("[type=submit]");
-      if (btn) { btn.textContent = "Sending…"; btn.disabled = true; }
+    form.addEventListener('submit', function () {
+      var btn = form.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
     });
   }
 
-  /* ── BOOT ── */
-  function boot() {
-    safe(initNav,      "nav");
-    safe(initScroll,   "scroll");
-    safe(initReveals,  "reveals");
-    safe(initHeroImg,  "heroImg");
-    safe(initGsap,     "gsap");
-    safe(initCredits,  "credits");
-    safe(initForm,     "form");
+  /* ── Prayer form ── */
+  function initPrayerForm() {
+    var form = $('form[name="prayer"]');
+    if (!form) return;
+    form.addEventListener('submit', function () {
+      var btn = form.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Submitting…'; }
+    });
   }
 
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
-  else boot();
+  /* ── GSAP (optional) ── */
+  function initGSAP() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    var heroBg = $('.hero__bg img');
+    if (heroBg) {
+      gsap.to(heroBg, {
+        yPercent: 15,
+        ease: 'none',
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true }
+      });
+    }
+  }
+
+  /* ── Boot ── */
+  document.addEventListener('DOMContentLoaded', function () {
+    safe(initNav,         'nav');
+    safe(initHero,        'hero');
+    safe(initReveals,     'reveals');
+    safe(initRadio,       'radio');
+    safe(initContactForm, 'contact-form');
+    safe(initPrayerForm,  'prayer-form');
+    safe(initGSAP,        'gsap');
+  });
+
 })();

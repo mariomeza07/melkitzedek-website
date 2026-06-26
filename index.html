@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Iglesia Melkitzedek — Tegucigalpa, Honduras. Sundays at 10:00 AM." />
+  <meta name="description" content="Iglesia Melkitzedek — Tegucigalpa, Honduras. Domingos a las 10:00 AM. Radio 24/7." />
   <title>Melkitzedek — Iglesia, Tegucigalpa</title>
 
-  <!-- Favicon -->
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-  <!-- Open Graph (social sharing) -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Melkitzedek — Iglesia, Tegucigalpa" />
+  <meta property="og:title" content="Iglesia Melkitzedek — Tegucigalpa" />
   <meta property="og:description" content="Una comunidad de fe en el corazón de Tegucigalpa. Domingos a las 10:00 AM." />
   <meta property="og:image" content="/assets/img/hero.jpg" />
   <meta property="og:url" content="https://melkitzedekv2.netlify.app" />
@@ -19,7 +17,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="styles.css?v=20260625c" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="styles.css?v=20260626" />
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script>
 </head>
 <body>
@@ -27,126 +26,222 @@
   <!-- ══ NAV ══ -->
   <nav class="nav" id="nav" aria-label="Main navigation">
     <a href="/" class="nav__logo" aria-label="Melkitzedek Home">
-      <span class="dot" aria-hidden="true"></span>
-      Melkitzedek
+      <svg class="nav__mark" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="28" height="28" rx="5" fill="#0D1B3E"/>
+        <path d="M14 5L14 23M9 9L19 9" stroke="#C4993A" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <div class="nav__logo-text">
+        <span class="nav__name">Melkitzedek</span>
+        <span class="nav__city">Tegucigalpa · Honduras</span>
+      </div>
     </a>
-    <ul class="nav__links">
+
+    <ul class="nav__links" role="list">
       <li><a href="#about">About</a></li>
       <li><a href="#sermons">Sermons</a></li>
       <li><a href="#events">Events</a></li>
+      <li><a href="#ministries">Ministries</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a href="#contact" class="nav__cta">Plan a visit</a>
+
+    <div class="nav__right">
+      <div class="nav__socials" aria-label="Social media">
+        <a href="#" class="nav__soc" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M13.5 1h-11A.5.5 0 002 1.5v11a.5.5 0 00.5.5H8V9.5H6.5V8H8V6.8C8 5.3 8.9 4.5 10.2 4.5c.6 0 1.3.05 1.8.1V6h-.9c-.7 0-.9.35-.9.9V8h2l-.3 1.5H10.2V13h3.3a.5.5 0 00.5-.5v-11a.5.5 0 00-.5-.5z"/></svg>
+        </a>
+        <a href="#" class="nav__soc" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="3.5"/><circle cx="8" cy="8" r="2.8"/><circle cx="11.5" cy="4.5" r=".7" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="#" class="nav__soc" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M14 4.5S13.8 3.2 13.2 2.6c-.65-.7-1.4-.7-1.75-.75C9.85 1.7 8 1.7 8 1.7s-1.85 0-3.45.15c-.35.05-1.1.05-1.75.75C2.2 3.2 2 4.5 2 4.5S1.8 6 1.8 7.5v1.3c0 1.5.2 3 .2 3s.2 1.3.8 1.9c.65.7 1.5.65 1.9.75C5.8 14.6 8 14.6 8 14.6s1.85 0 3.45-.15c.35-.1 1.1-.05 1.75-.75.6-.6.8-1.9.8-1.9s.2-1.5.2-3V7.5c0-1.5-.2-3-.2-3zM6.5 10.2V5.8L10.5 8 6.5 10.2z"/></svg>
+        </a>
+      </div>
+      <div class="nav__divider" aria-hidden="true"></div>
+      <button class="nav__radio-pill" id="nav-radio-btn" aria-label="Toggle live radio">
+        <span class="nav__radio-dot" aria-hidden="true"></span>
+        <span>Live</span>
+      </button>
+      <a href="#contact" class="btn-gold nav__cta">Plan a visit</a>
+    </div>
+
     <button class="nav__burger" id="burger" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </nav>
 
+  <!-- Mobile menu -->
   <div class="nav__mobile" id="mobile-menu" aria-hidden="true">
     <ul>
       <li><a href="#about">About</a></li>
       <li><a href="#sermons">Sermons</a></li>
       <li><a href="#events">Events</a></li>
+      <li><a href="#ministries">Ministries</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
-    <a href="#contact" class="btn-coral m-cta">Plan a visit</a>
+    <a href="#contact" class="btn-gold">Plan a visit</a>
   </div>
 
 
   <!-- ══ HERO ══ -->
-  <section class="hero" aria-label="Hero">
-    <div class="hero__img" id="hero-img">
-      <img src="assets/img/hero.jpg" alt="Iglesia Melkitzedek" loading="eager" />
+  <section class="hero" id="hero" aria-label="Hero">
+    <div class="hero__bg" id="hero-img">
+      <img src="assets/img/hero.jpg" alt="Iglesia Melkitzedek — worship gathering" loading="eager" />
     </div>
     <div class="hero__overlay" aria-hidden="true"></div>
-    <div class="hero__grain" aria-hidden="true"></div>
+    <div class="hero__geo" aria-hidden="true">
+      <svg viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="200,20 380,380 20,380" fill="none" stroke="#C4993A" stroke-width="0.6"/>
+        <polygon points="200,55 345,360 55,360" fill="none" stroke="#C4993A" stroke-width="0.5"/>
+        <circle cx="200" cy="220" r="130" fill="none" stroke="#C4993A" stroke-width="0.4"/>
+        <circle cx="200" cy="220" r="85" fill="none" stroke="#C4993A" stroke-width="0.4"/>
+        <line x1="200" y1="20" x2="200" y2="380" stroke="#C4993A" stroke-width="0.3"/>
+        <line x1="20" y1="200" x2="380" y2="200" stroke="#C4993A" stroke-width="0.3"/>
+      </svg>
+    </div>
 
     <div class="hero__inner">
-      <p class="hero__place r">Tegucigalpa, Honduras</p>
+      <div class="hero__eyebrow r">
+        <span class="eyebrow-line" aria-hidden="true"></span>
+        Iglesia Melkitzedek
+      </div>
       <h1 class="hero__title r r-d1">
-        Faith<br />
-        that <span class="accent">moves</span><br />
-        <span class="outline">mountains</span>
+        A place where<br />
+        <em>faith</em> becomes<br />
+        your foundation
       </h1>
-      <p class="hero__sub r r-d2">Sundays at 10:00 AM — come as you are.</p>
+      <p class="hero__sub r r-d2">
+        Worship. Teaching. Community.<br />
+        Join us this Sunday at 10:00 AM.
+      </p>
       <div class="hero__actions r r-d3">
-        <a href="#contact" class="btn-coral">Plan a visit</a>
-        <a href="#sermons" class="btn-ghost-white">Watch a sermon</a>
+        <a href="#contact" class="btn-gold">Plan a visit</a>
+        <a href="#sermons" class="btn-outline-white">Watch a sermon</a>
+      </div>
+    </div>
+
+    <div class="hero__stats r r-d4">
+      <div class="hero__stat">
+        <span class="hero__stat-num">20<small>+</small></span>
+        <span class="hero__stat-label">Years of ministry</span>
+      </div>
+      <div class="hero__stat-sep" aria-hidden="true"></div>
+      <div class="hero__stat">
+        <span class="hero__stat-num">Sun <small>10AM</small></span>
+        <span class="hero__stat-label">Weekly service</span>
+      </div>
+      <div class="hero__stat-sep" aria-hidden="true"></div>
+      <div class="hero__stat">
+        <span class="hero__stat-num">24<small>/7</small></span>
+        <span class="hero__stat-label">Live radio</span>
+      </div>
+      <div class="hero__stat-sep" aria-hidden="true"></div>
+      <div class="hero__stat">
+        <span class="hero__stat-num">Tegucigalpa</span>
+        <span class="hero__stat-label">Honduras</span>
       </div>
     </div>
   </section>
 
 
-  <!-- ══ ABOUT ══ -->
-  <section class="about" id="about" aria-labelledby="about-heading">
-    <div class="about__simple">
-      <div class="about__simple-text r">
-        <p class="tag">Who we are</p>
-        <h2 id="about-heading">Everyone<br />welcome,<br /><span class="accent">no exceptions.</span></h2>
-        <p>We are a Spirit-filled community in the heart of Tegucigalpa. Whether you are a lifelong believer or simply curious — our doors are open.</p>
-        <a href="#contact" class="btn-outline-dark">Come visit us</a>
+  <!-- ══ LIVE RADIO ══ -->
+  <section class="radio" id="radio" aria-label="Live Radio">
+    <div class="radio__inner">
+      <div class="radio__info">
+        <p class="radio__live-tag">
+          <span class="radio__live-dot" aria-hidden="true"></span>
+          Live now
+        </p>
+        <h2 class="radio__name">Melkitzedek Radio</h2>
+        <p class="radio__now" id="radio-now">Worship music &amp; messages 24/7</p>
       </div>
-      <div class="about__simple-img r r-d2">
-        <img src="assets/img/community.jpg" alt="Our congregation" loading="lazy" />
+
+      <div class="radio__player">
+        <button class="radio__play" id="radio-play" aria-label="Play radio">
+          <svg class="icon-play" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 3L14 9L4 15V3Z" fill="white"/></svg>
+          <svg class="icon-pause" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="display:none"><rect x="4" y="3" width="3" height="12" rx="1" fill="white"/><rect x="11" y="3" width="3" height="12" rx="1" fill="white"/></svg>
+        </button>
+        <div class="radio__wave" aria-hidden="true" id="radio-wave">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="radio__vol">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3 6H1v4h2l4 3V3L3 6zM11 8c0-1.5-.9-2.8-2.2-3.4v6.8C10.1 10.8 11 9.5 11 8zM8.8 2C11.8 2.8 14 5.7 14 9s-2.2 6.2-5.2 7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <input type="range" class="radio__vol-slider" id="radio-vol" min="0" max="100" value="80" aria-label="Volume" />
+        </div>
+      </div>
+
+      <div class="radio__right">
+        <a href="https://tunein.com/radio/Melki-Tzedekradio/" target="_blank" rel="noopener noreferrer" class="radio__tunein">
+          Open in TuneIn
+          <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M2 2h8v8M10 2L2 10" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        </a>
+        <p class="radio__listeners"><span id="radio-listeners">—</span> listeners</p>
       </div>
     </div>
+    <!-- Hidden audio element -->
+    <!-- TO CHANGE: replace src with your actual stream URL -->
+    <audio id="radio-audio" preload="none">
+      <source src="" type="audio/mpeg" />
+    </audio>
   </section>
 
 
   <!-- ══ SERMONS ══ -->
   <section class="sermons" id="sermons" aria-labelledby="sermons-heading">
-    <div class="sermons__inner">
-      <div class="sermons__header r">
-        <h2 class="sermons__title" id="sermons-heading">Latest sermons</h2>
+    <div class="section-inner">
+      <div class="section-header r">
+        <div>
+          <p class="eyebrow">Messages</p>
+          <h2 class="section-title" id="sermons-heading">Latest sermons</h2>
+        </div>
+        <a href="#" class="link-more">View all →</a>
       </div>
-
       <div class="sermons__grid">
 
         <article class="s-card r">
           <div class="s-card__thumb">
             <img src="assets/img/sermon3.jpg" alt="Faith Over Fear" loading="lazy" />
-            <div class="s-card__overlay">
-              <a href="#" class="s-card__play" aria-label="Watch Faith Over Fear">
-                <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 3L14 9L4 15V3Z" fill="white"/></svg>
-              </a>
-            </div>
+            <div class="s-card__overlay" aria-hidden="true"></div>
+            <a href="#" class="s-card__play" aria-label="Watch Faith Over Fear">
+              <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 3L14 9L4 15V3Z" fill="white"/></svg>
+            </a>
           </div>
           <div class="s-card__body">
-            <p class="s-card__date">June 15, 2026</p>
+            <p class="s-card__date">June 22, 2026</p>
             <h3 class="s-card__title">Faith Over Fear</h3>
             <p class="s-card__meta">Philippians 4:6–7</p>
             <a href="#" class="s-card__link">Watch now →</a>
           </div>
         </article>
 
-        <article class="s-card r r-d2">
+        <article class="s-card r r-d1">
           <div class="s-card__thumb">
             <img src="assets/img/sermons.jpg" alt="The Good Shepherd" loading="lazy" />
-            <div class="s-card__overlay">
-              <a href="#" class="s-card__play" aria-label="Watch The Good Shepherd">
-                <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 3L14 9L4 15V3Z" fill="white"/></svg>
-              </a>
-            </div>
+            <div class="s-card__overlay" aria-hidden="true"></div>
+            <a href="#" class="s-card__play" aria-label="Watch The Good Shepherd">
+              <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 3L14 9L4 15V3Z" fill="white"/></svg>
+            </a>
           </div>
           <div class="s-card__body">
-            <p class="s-card__date">June 8, 2026</p>
+            <p class="s-card__date">June 15, 2026</p>
             <h3 class="s-card__title">The Good Shepherd</h3>
             <p class="s-card__meta">John 10:11–18</p>
             <a href="#" class="s-card__link">Watch now →</a>
           </div>
         </article>
 
-        <article class="s-card r r-d3">
+        <article class="s-card r r-d2">
           <div class="s-card__thumb">
             <img src="assets/img/mission.jpg" alt="Walking in Purpose" loading="lazy" />
-            <div class="s-card__overlay">
-              <a href="#" class="s-card__play" aria-label="Watch Walking in Purpose">
-                <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 3L14 9L4 15V3Z" fill="white"/></svg>
-              </a>
-            </div>
+            <div class="s-card__overlay" aria-hidden="true"></div>
+            <a href="#" class="s-card__play" aria-label="Watch Walking in Purpose">
+              <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 3L14 9L4 15V3Z" fill="white"/></svg>
+            </a>
           </div>
           <div class="s-card__body">
-            <p class="s-card__date">June 1, 2026</p>
+            <p class="s-card__date">June 8, 2026</p>
             <h3 class="s-card__title">Walking in Purpose</h3>
             <p class="s-card__meta">Jeremiah 29:11</p>
             <a href="#" class="s-card__link">Watch now →</a>
@@ -158,13 +253,40 @@
   </section>
 
 
+  <!-- ══ ABOUT ══ -->
+  <section class="about" id="about" aria-labelledby="about-heading">
+    <div class="section-inner">
+      <div class="about__grid">
+        <div class="about__img r">
+          <img src="assets/img/community.jpg" alt="Our congregation" loading="lazy" />
+        </div>
+        <div class="about__text r r-d1">
+          <p class="eyebrow">Who we are</p>
+          <h2 class="section-title" id="about-heading">
+            Everyone welcome,<br /><em>no exceptions.</em>
+          </h2>
+          <p class="about__body">
+            We are a Spirit-filled community rooted in the Messianic faith,
+            meeting in the heart of Tegucigalpa. Whether you are a lifelong
+            believer or simply curious — our doors are open.
+          </p>
+          <a href="#contact" class="btn-outline-dark">Come visit us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
   <!-- ══ EVENTS ══ -->
   <section class="events" id="events" aria-labelledby="events-heading">
-    <div class="events__inner">
-      <div class="events__header r">
-        <h2 class="events__title" id="events-heading">Upcoming events</h2>
+    <div class="section-inner">
+      <div class="section-header r">
+        <div>
+          <p class="eyebrow">Calendar</p>
+          <h2 class="section-title" id="events-heading">Upcoming events</h2>
+        </div>
+        <a href="#" class="link-more">View all →</a>
       </div>
-
       <div class="e-list">
 
         <article class="e-item r">
@@ -172,6 +294,7 @@
             <p class="e-item__month">Jun</p>
             <p class="e-item__day">29</p>
           </div>
+          <div class="e-item__sep" aria-hidden="true"></div>
           <div class="e-item__info">
             <h3 class="e-item__title">Sunday Service</h3>
             <p class="e-item__when">10:00 AM · Main Sanctuary</p>
@@ -184,8 +307,9 @@
             <p class="e-item__month">Jul</p>
             <p class="e-item__day">2</p>
           </div>
+          <div class="e-item__sep" aria-hidden="true"></div>
           <div class="e-item__info">
-            <h3 class="e-item__title">Bible Study</h3>
+            <h3 class="e-item__title">Wednesday Bible Study</h3>
             <p class="e-item__when">7:00 PM · Fellowship Hall</p>
           </div>
           <span class="e-item__badge">Weekly</span>
@@ -196,6 +320,7 @@
             <p class="e-item__month">Jul</p>
             <p class="e-item__day">4</p>
           </div>
+          <div class="e-item__sep" aria-hidden="true"></div>
           <div class="e-item__info">
             <h3 class="e-item__title">Youth Night</h3>
             <p class="e-item__when">7:00 PM · Youth Room</p>
@@ -208,6 +333,7 @@
             <p class="e-item__month">Jul</p>
             <p class="e-item__day">8</p>
           </div>
+          <div class="e-item__sep" aria-hidden="true"></div>
           <div class="e-item__info">
             <h3 class="e-item__title">Community Prayer</h3>
             <p class="e-item__when">6:00 AM · Main Sanctuary</p>
@@ -220,39 +346,159 @@
   </section>
 
 
-  <!-- ══ RADIO ══ -->
-  <section class="radio" id="radio" aria-label="Radio">
-    <div class="radio__strip">
-      <p class="radio__strip-text">Melkitzedek Radio — worship &amp; messages 24/7</p>
-      <a href="https://tunein.com/radio/Melki-Tzedekradio/" target="_blank" rel="noopener noreferrer" class="btn-coral">Listen on TuneIn</a>
+  <!-- ══ MINISTRIES ══ -->
+  <section class="ministries" id="ministries" aria-labelledby="min-heading">
+    <div class="section-inner">
+      <div class="section-header r">
+        <div>
+          <p class="eyebrow">Get involved</p>
+          <h2 class="section-title" id="min-heading">Our ministries</h2>
+        </div>
+      </div>
+      <div class="min__grid">
+        <div class="min__card r">
+          <div class="min__icon" aria-hidden="true">
+            <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 18V8l10-3v10M9 13H5c-1.1 0-2 .9-2 2s.9 2 2 2h2c1.1 0 2 .9 2 2s-.9 2-2 2H3M19 10H15c-1.1 0-2 .9-2 2v0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="min__title">Worship</h3>
+          <p class="min__desc">Live music and weekly worship team</p>
+        </div>
+        <div class="min__card r r-d1">
+          <div class="min__icon" aria-hidden="true">
+            <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="9" stroke="currentColor" stroke-width="1.4"/><circle cx="11" cy="11" r="3" stroke="currentColor" stroke-width="1.4"/><path d="M11 2v2M11 18v2M2 11h2M18 11h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </div>
+          <h3 class="min__title">Radio ministry</h3>
+          <p class="min__desc">24/7 live streaming on TuneIn</p>
+        </div>
+        <div class="min__card r r-d2">
+          <div class="min__icon" aria-hidden="true">
+            <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M17 21v-2a4 4 0 00-4-4H9a4 4 0 00-4 4v2M11 11a4 4 0 100-8 4 4 0 000 8zM22 21v-2a4 4 0 00-3-3.87M15 3.13a4 4 0 010 7.75" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="min__title">Youth</h3>
+          <p class="min__desc">Programs for teens and young adults</p>
+        </div>
+        <div class="min__card r r-d3">
+          <div class="min__icon" aria-hidden="true">
+            <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L11 6.67l-2.06-2.06a5.5 5.5 0 00-7.78 7.78l2.06 2.06L11 22l7.78-7.78 2.06-2.06a5.5 5.5 0 000-7.55z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="min__title">Community care</h3>
+          <p class="min__desc">Outreach and social support</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ DEVOTIONAL + PRAYER ══ -->
+  <section class="dp" id="devotional" aria-label="Devotional and prayer">
+    <div class="section-inner">
+      <div class="dp__grid">
+        <div class="dp__devotional r">
+          <p class="eyebrow">Daily word</p>
+          <h2 class="section-title">Today's devotional</h2>
+          <blockquote class="dp__quote">
+            <p>"Rest in the Lord and wait patiently for Him."</p>
+            <footer>— Psalm 37:7</footer>
+          </blockquote>
+          <p class="dp__body">
+            In the stillness of His presence, we find the strength to face
+            another day. Let your soul be anchored in His promises and His
+            faithfulness.
+          </p>
+          <a href="#" class="link-more">Read full devotional →</a>
+        </div>
+        <div class="dp__prayer r r-d1">
+          <p class="eyebrow">Prayer</p>
+          <h2 class="section-title">Request prayer</h2>
+          <p class="dp__prayer-sub">Share your need with our prayer team. We believe in the power of prayer.</p>
+          <form class="dp__form" name="prayer" method="POST" netlify netlify-honeypot="bot-field">
+            <input type="hidden" name="form-name" value="prayer" />
+            <p style="display:none;"><input name="bot-field" /></p>
+            <div class="f-field"><input type="text" name="name" placeholder="Your name" required /></div>
+            <div class="f-field"><textarea name="request" placeholder="Your prayer request…" rows="3" required></textarea></div>
+            <button type="submit" class="btn-gold" style="width:100%;justify-content:center;">Send prayer request</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ VISIT CTA ══ -->
+  <section class="visit" aria-label="Visit us">
+    <div class="visit__geo" aria-hidden="true">
+      <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="150" cy="150" r="140" stroke="#C4993A" stroke-width="0.5"/>
+        <circle cx="150" cy="150" r="95" stroke="#C4993A" stroke-width="0.5"/>
+        <circle cx="150" cy="150" r="50" stroke="#C4993A" stroke-width="0.4"/>
+        <line x1="10" y1="150" x2="290" y2="150" stroke="#C4993A" stroke-width="0.3"/>
+        <line x1="150" y1="10" x2="150" y2="290" stroke="#C4993A" stroke-width="0.3"/>
+      </svg>
+    </div>
+    <div class="visit__inner">
+      <div class="visit__text r">
+        <p class="eyebrow eyebrow--light">You are welcome here</p>
+        <h2 class="visit__title">Come as you are.<br /><em>Leave transformed.</em></h2>
+        <p class="visit__sub">Join us this Sunday. No perfect people required — just open hearts.</p>
+        <div class="visit__actions">
+          <a href="#contact" class="btn-gold">Plan a visit</a>
+          <a href="#contact" class="btn-outline-white">Get directions</a>
+        </div>
+      </div>
+      <div class="visit__times r r-d2">
+        <div class="visit__time-card">
+          <p class="visit__time-label">Sunday service</p>
+          <p class="visit__time">10:00 AM</p>
+          <p class="visit__time-sub">Main Sanctuary</p>
+        </div>
+        <div class="visit__time-card">
+          <p class="visit__time-label">Wednesday study</p>
+          <p class="visit__time">7:00 PM</p>
+          <p class="visit__time-sub">Fellowship Hall</p>
+        </div>
+      </div>
     </div>
   </section>
 
 
   <!-- ══ CONTACT ══ -->
   <section class="contact" id="contact" aria-labelledby="contact-heading">
-    <div class="contact__inner">
-      <div>
-        <h2 class="contact__title r" id="contact-heading">Come<br />find <span class="accent">us.</span></h2>
-        <div class="contact__list">
-          <p class="contact__info-val r r-d1">📍 123 Church St, Tegucigalpa, Honduras</p>
-          <p class="contact__info-val r r-d2">🕐 Sundays 10AM · Wednesdays 7PM</p>
-          <p class="contact__info-val r r-d2"><a href="mailto:info@melkitzedek.com">info@melkitzedek.com</a></p>
-          <p class="contact__info-val r r-d3"><a href="tel:+50400000000">+504 0000-0000</a></p>
+    <div class="section-inner">
+      <div class="contact__grid">
+        <div class="r">
+          <p class="eyebrow">Find us</p>
+          <h2 class="section-title" id="contact-heading">Get in touch</h2>
+          <ul class="contact__list">
+            <li>
+              <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M9 1C6.24 1 4 3.24 4 6c0 3.75 5 11 5 11s5-7.25 5-11C14 3.24 11.76 1 9 1z" stroke="currentColor" stroke-width="1.3"/><circle cx="9" cy="6" r="2" fill="currentColor"/></svg>
+              <span>123 Church St, Tegucigalpa, Honduras</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="9" cy="9" r="7" stroke="currentColor" stroke-width="1.3"/><path d="M9 5v4l3 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              <span>Sundays 10AM · Wednesdays 7PM</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="1.5" y="4" width="15" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M1.5 5.5L9 10.5L16.5 5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+              <a href="mailto:info@melkitzedek.com">info@melkitzedek.com</a>
+            </li>
+            <li>
+              <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3.5 1.5h3.25l1.5 4L6 7.25A11 11 0 0010.75 12l2-2.25 3.75 1.5V14.5A2 2 0 0114.5 16.5C6.77 16.5 1.5 11.23 1.5 3.5A2 2 0 013.5 1.5z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <a href="tel:+50400000000">+504 0000-0000</a>
+            </li>
+          </ul>
         </div>
-      </div>
-
-      <div class="r r-d2">
-        <div class="contact__form">
-          <h3 class="contact__form-title">Send a message</h3>
-          <form name="contact" method="POST" netlify netlify-honeypot="bot-field">
-            <input type="hidden" name="form-name" value="contact" />
-            <p style="display:none;"><input name="bot-field" /></p>
-            <div class="f-field"><input type="text" name="name" placeholder="Your name" required /></div>
-            <div class="f-field"><input type="email" name="email" placeholder="Email address" required /></div>
-            <div class="f-field"><textarea name="message" placeholder="Your message…" rows="4" required></textarea></div>
-            <button type="submit" class="btn-coral" style="width:100%;justify-content:center;">Send message</button>
-          </form>
+        <div class="r r-d1">
+          <div class="contact__form-card">
+            <h3 class="contact__form-title">Send a message</h3>
+            <form name="contact" method="POST" netlify netlify-honeypot="bot-field">
+              <input type="hidden" name="form-name" value="contact" />
+              <p style="display:none;"><input name="bot-field" /></p>
+              <div class="f-field"><input type="text" name="name" placeholder="Your name" required /></div>
+              <div class="f-field"><input type="email" name="email" placeholder="Email address" required /></div>
+              <div class="f-field"><textarea name="message" placeholder="Your message…" rows="4" required></textarea></div>
+              <button type="submit" class="btn-gold" style="width:100%;justify-content:center;">Send message</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -262,45 +508,61 @@
   <!-- ══ FOOTER ══ -->
   <footer class="footer">
     <div class="footer__top">
-      <div>
-        <div class="footer__brand"><span class="dot" aria-hidden="true"></span>Melkitzedek</div>
-        <p class="footer__tagline">Tegucigalda, Honduras · Est. 2000</p>
-        <div class="footer__social">
+      <div class="footer__brand-col">
+        <div class="footer__brand">
+          <svg width="22" height="22" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="28" height="28" rx="5" fill="#162347"/><path d="M14 5L14 23M9 9L19 9" stroke="#C4993A" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Melkitzedek
+        </div>
+        <p class="footer__tagline">A community of faith in Tegucigalpa, Honduras. Est. 2000.</p>
+        <div class="footer__socials" aria-label="Social media links">
           <a href="#" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 15 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13 1H2a.5.5 0 00-.5.5v11a.5.5 0 00.5.5h5.5V9H5.8V7H7.5V5.7C7.5 4 8.5 3 10 3c.7 0 1.5.05 2 .1V5H11c-.8 0-1 .4-1 1v1h2L11.7 9H10v4h3a.5.5 0 00.5-.5v-11A.5.5 0 0013 1z"/></svg>
+            <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M13.5 1h-11A.5.5 0 002 1.5v11a.5.5 0 00.5.5H8V9.5H6.5V8H8V6.8C8 5.3 8.9 4.5 10.2 4.5c.6 0 1.3.05 1.8.1V6h-.9c-.7 0-.9.35-.9.9V8h2l-.3 1.5H10.2V13h3.3a.5.5 0 00.5-.5v-11a.5.5 0 00-.5-.5z"/></svg>
           </a>
           <a href="#" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.1" xmlns="http://www.w3.org/2000/svg"><rect x="1.5" y="1.5" width="12" height="12" rx="3.5"/><circle cx="7.5" cy="7.5" r="2.8"/><circle cx="11" cy="4" r=".7" fill="currentColor" stroke="none"/></svg>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="3.5"/><circle cx="8" cy="8" r="2.8"/><circle cx="11.5" cy="4.5" r=".7" fill="currentColor" stroke="none"/></svg>
           </a>
           <a href="#" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-            <svg viewBox="0 0 15 15" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M13.5 4.2S13.3 3 12.7 2.4c-.65-.7-1.4-.7-1.7-.75C9.5 1.6 7.5 1.6 7.5 1.6s-2 0-3.5.05c-.35.05-1.05.05-1.7.75C1.7 3 1.5 4.2 1.5 4.2S1.3 5.6 1.3 7v1.3c0 1.4.2 2.8.2 2.8s.2 1.2.8 1.8c.65.7 1.5.65 1.9.75C5.4 13.8 7.5 13.8 7.5 13.8s2 0 3.5-.1c.35-.1 1.05-.05 1.7-.75.6-.6.8-1.8.8-1.8s.2-1.4.2-2.8V7c0-1.4-.2-2.8-.2-2.8zM6.1 9.5V5.5L10 7.5 6.1 9.5z"/></svg>
+            <svg viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M14 4.5S13.8 3.2 13.2 2.6c-.65-.7-1.4-.7-1.75-.75C9.85 1.7 8 1.7 8 1.7s-1.85 0-3.45.15c-.35.05-1.1.05-1.75.75C2.2 3.2 2 4.5 2 4.5S1.8 6 1.8 7.5v1.3c0 1.5.2 3 .2 3s.2 1.3.8 1.9c.65.7 1.5.65 1.9.75C5.8 14.6 8 14.6 8 14.6s1.85 0 3.45-.15c.35-.1 1.1-.05 1.75-.75.6-.6.8-1.9.8-1.9s.2-1.5.2-3V7.5c0-1.5-.2-3-.2-3zM6.5 10.2V5.8L10.5 8 6.5 10.2z"/></svg>
+          </a>
+          <a href="https://tunein.com/radio/Melki-Tzedekradio/" aria-label="TuneIn Radio" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.3"/><path d="M8 2V1M8 15v-1M2 8H1M15 8h-1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
           </a>
         </div>
       </div>
 
       <div class="footer__col">
-        <p class="footer__col-title">Navigate</p>
+        <p class="footer__col-title">Explore</p>
         <ul>
-          <li><a href="#about">About</a></li>
+          <li><a href="#about">About us</a></li>
           <li><a href="#sermons">Sermons</a></li>
           <li><a href="#events">Events</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><a href="#ministries">Ministries</a></li>
         </ul>
       </div>
 
       <div class="footer__col">
         <p class="footer__col-title">Connect</p>
         <ul>
-          <li><a href="mailto:info@melkitzedek.com">info@melkitzedek.com</a></li>
-          <li><a href="tel:+50400000000">+504 0000-0000</a></li>
-          <li><a href="https://tunein.com/radio/Melki-Tzedekradio/" target="_blank" rel="noopener noreferrer">TuneIn Radio</a></li>
+          <li><a href="#devotional">Prayer request</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#">Give / Donate</a></li>
           <li><a href="/admin">Staff login</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__col">
+        <p class="footer__col-title">Service times</p>
+        <ul>
+          <li>Sunday 10:00 AM</li>
+          <li>Wednesday 7:00 PM</li>
+          <li>Live Radio 24/7</li>
+          <li><a href="mailto:info@melkitzedek.com">info@melkitzedek.com</a></li>
         </ul>
       </div>
     </div>
 
     <div class="footer__bottom">
-      <p class="footer__copy">&copy; 2026 Melkitzedek</p>
+      <p class="footer__copy">&copy; 2026 Iglesia Melkitzedek</p>
       <p class="footer__credits" id="photo-credits"></p>
     </div>
   </footer>
@@ -308,7 +570,7 @@
 
   <script defer src="lib/gsap.min.js"></script>
   <script defer src="lib/ScrollTrigger.min.js"></script>
-  <script defer src="js/main.js?v=20260625c"></script>
+  <script defer src="js/main.js?v=20260626"></script>
 
   <script>
     if (window.netlifyIdentity) {
