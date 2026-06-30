@@ -15,3 +15,8 @@
 
 # Temp asset processing folder
 assets/photos/
+
+# Sanity studio — build output and dependencies (not needed in git)
+studio/dist/
+studio/node_modules/
+studio/.sanity/
